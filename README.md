@@ -86,7 +86,7 @@ python app.py
   Random Forest, both with `class_weight="balanced"` since phishing datasets
   are often imbalanced.
 
-## Extending this
+## Future Improvements
 
 - Add sender-reputation lookups (SPF/DKIM pass-fail, domain age via WHOIS).
 - Add attachment-type flags (.exe, .scr, macro-enabled Office docs).
