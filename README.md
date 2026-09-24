@@ -10,7 +10,7 @@ mismatches, urgency language, credential requests, etc.).
 phishing_classifier/
 ├── data/
 │   ├── emails.csv           # small synthetic demo set (from make_sample_data.py)
-│   └── CEAS_08.csv          # real dataset (e.g. Kaggle) — subject, body, sender, reply_to, label
+│   └── CEAS_08.csv          # real dataset — subject, body, sender, label
 ├── model/
 │   └── phishing_model.joblib   # saved after training
 ├── features.py              # feature extraction (TF-IDF + engineered signals)
@@ -23,7 +23,7 @@ phishing_classifier/
 
 ## Results
 
-Trained on [CEAS_08](https://www.kaggle.com/datasets) (~39K emails, 25%
+Trained on [CEAS_08]([https://www.kaggle.com/datasets](https://www.kaggle.com/datasets/naserabdullahalam/phishing-email-dataset)) (~39K emails, 25%
 held out for testing), logistic regression:
 
 | Class | Precision | Recall | F1 |
@@ -40,17 +40,6 @@ Confusion matrix (test set, 9,789 emails):
 | **Actual legit** | 4,208 | 120 |
 | **Actual phishing** | 92 | 5,369 |
 
-**Caveat:** the top predictive features on this run are still dominated by
-topic words ("men," "love," "health," "replica," "watches") rather than
-structural phishing signals (URL patterns, sender spoofing, urgency
-language). That's a strong hint the model is partly keying off vocabulary
-differences between the phishing and legitimate emails in this dataset,
-rather than purely detecting phishing *mechanics* — so real-world
-generalization to phishing emails on unfamiliar topics is likely weaker
-than these numbers suggest. Tightening the engineered features (e.g. a
-sender display-name/domain mismatch signal) is a planned next step to
-reduce this reliance on topic vocabulary.
-
 ## Setup
 
 ```bash
@@ -66,8 +55,8 @@ python make_sample_data.py     # writes data/emails.csv
 ```
 
 For real results, use a real dataset with the same columns
-(`subject, body, sender, reply_to, label`), saved as `data/CEAS_08.csv`
-(or point `--data` at wherever you put it). Good public sources:
+(`subject, body, sender, reply_to, label`),  `--data` at wherever you put it. 
+Good public sources:
 
 - Kaggle "Phishing Email Dataset" / "Nazario phishing corpus"
 - Enron email dataset (as the "legit" / ham class)
@@ -77,7 +66,7 @@ Just reshape whatever you download into a CSV with those five columns.
 ## 2. Train
 
 ```bash
-python train.py --data data/CEAS_08.csv --model logreg   # or --model rf
+python train.py --data data/(dataset).csv --model logreg   # or --model rf
 ```
 
 Prints a classification report, confusion matrix, ROC AUC, and (for logreg)
@@ -118,7 +107,7 @@ python app.py
   Random Forest, both with `class_weight="balanced"` since phishing datasets
   are often imbalanced.
 
-## Extending this
+## Future Improvements
 
 - Add sender-reputation lookups (SPF/DKIM pass-fail, domain age via WHOIS).
 - Add attachment-type flags (.exe, .scr, macro-enabled Office docs).
