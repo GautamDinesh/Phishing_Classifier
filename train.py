@@ -1,6 +1,6 @@
 """
 train.py
-Trains a phishing/suspicious-email classifier on data/emails.csv and saves
+Trains a phishing/suspicious-email classifier on selected dataset and saves
 the fitted featurizer + model to model/.
 
 """
